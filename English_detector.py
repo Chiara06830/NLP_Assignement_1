@@ -41,10 +41,15 @@ testing_set =  featuresets[:set_length]
 classifier = nltk.NaiveBayesClassifier.train(training_set)
 
 # ----------------------- TEST THE CLASSIFIER -----------------------
+# calcul of accuracy 
+print("Accuracy: ", nltk.classify.accuracy(classifier, testing_set), "\n")
+
+# gold data based on training set
 gold_set = [[token[1] for token in gold_actu] for gold_actu in[nltk.pos_tag(nltk.word_tokenize(sentence[0])) for sentence in documents[set_length:]]]
 gold = []; [[gold.append(token) for token in elem]for elem in gold_set]
+# test data based on testing set
 test_set = [[token[1] for token in test_actu]for test_actu in[nltk.pos_tag(nltk.word_tokenize(sentence[0])) for sentence in documents[:set_length]]]
 test = []; [[test.append(token) for token in elem]for elem in test_set]
+# calcul of confusion matrix
 cm = nltk.ConfusionMatrix(gold[:3000], test[:3000])
 print(cm.evaluate())
-print("Accuracy: ", nltk.classify.accuracy(classifier, testing_set))
